@@ -8,17 +8,47 @@
   "dependencies": {
     "@sap/cds": "^6",
     "express": "^4",
-    "hdb": "^0.19.0"
+    "hdb": "^0.19.0",
+    "@sap/xssec": "^3",
+    "passport": "^0.5.0"
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.102.14",
     "sqlite3": "^5.0.4"
+  },
+  "engines": {
+    "node": "^16"
   },
   "scripts": {
     "start": "cds run",
     "watch-risks": "cds watch --open risks/webapp/index.html?sap-ui-xx-viewCache=false",
     "watch-mitigations": "cds watch --open mitigations/webapp/index.html?sap-ui-xx-viewCache=false"
   },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+        "es2020": true,
+        "node": true,
+        "jest": true,
+        "mocha": true
+    },
+    "globals": {
+        "SELECT": true,
+        "INSERT": true,
+        "UPDATE": true,
+        "DELETE": true,
+        "CREATE": true,
+        "DROP": true,
+        "CDL": true,
+        "CQL": true,
+        "CXL": true,
+        "cds": true
+    },
+    "rules": {
+        "no-console": "off",
+        "require-atomic-updates": "off"
+    }
+},
   "sapux": [
     "app/risks",
     "app/mitigations"
@@ -28,10 +58,17 @@
       "[production]": {
         "db": {
           "kind": "hana-cloud"
+        },
+        "auth": {
+          "kind": "xsuaa"
         }
       },
       "db": {
         "kind": "sql"
+      },
+      "uaa": {
+        "kind": "xsuaa",
+        "credentials": {}
       }
     }
   }
